@@ -39,8 +39,22 @@ int main()
             tollQueue.push_back(Car());
             cout << "New car joined the queue: ";
             tollQueue.back().print();
+
+            cout << "\n";
         }
 
+        if (!tollQueue.empty())
+        {
+            cout << "Current queue:\n";
+            for (auto& car : tollQueue)
+                car.print();
+            cout << "\n";
+        }
+        else
+            cout << "The queue is now empty.\n";
+
+        cout << "---------------------------------------\n";
+        step++;
     }
 
     return 0;
