@@ -15,8 +15,33 @@ int main()
         tollQueue.push_back(Car());
 
     cout << "Initial queue:\n";
-    for (const auto& car : tollQueue)
+    for (auto& car : tollQueue)
         car.print();
+    cout << "\n\n";
+
+    int step = 1;
+    while (!tollQueue.empty())
+    {
+        cout << "Step " << step << ":\n";
+
+        int probability = 1 + rand() % 99;
+
+        if (probability < 55)
+        {
+            Car departingCar = tollQueue.front();
+            tollQueue.pop_front();
+            cout << "Car departing: ";
+            departingCar.print();
+            cout << "\n";
+        }
+        else
+        {
+            tollQueue.push_back(Car());
+            cout << "New car joined the queue: ";
+            tollQueue.back().print();
+        }
+
+    }
 
     return 0;
 }
