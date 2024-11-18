@@ -4,6 +4,7 @@
 * Compiler: Apple clang version 16.0.0
 */
 #include <iostream>
+#include <iomanip>
 #include <deque>
 #include "Car.h"
 
@@ -54,78 +55,71 @@ int main()
     {
         cout << "Time: " << step << "\n";
 
+        // First list what operations happened in all the lanes
         for (int i = 0; i < NUM_OF_LANES; i++)
         {
             // If the lane is empty, 50/50 chance a new car joins the lane
             if (tollQueue[i].empty())
             {
-
+                int probability = getRandomInt(0, 99);
+                if (probability < 50)
+                {
+                    Car newCar = Car();
+                    cout << "Lane: " << i << " Joined: ";
+                    tollQueue[i].push_back(newCar);
+                    tollQueue[i].back().print();
+                }
             }
-            int probability = getRandomInt(0, 99);
-
-            // 46% probability that the car at the head of the queue pays its toll and leaves the queue
-            if (probability < DEPARTURE)
-            {
-                cout << "Lane: " << i << " Paid: ";
-                tollQueue[i].front().print();
-                tollQueue[i].pop_front();
-            }
-            // 39% probability that another car joins the queue
-            else if (probability < DEPARTURE + JOIN)
-            {
-                cout << "Lane: " << i << " Joined: ";
-                Car newCar = Car();
-                tollQueue[i].push_back(newCar);
-                tollQueue[i].back().print();
-            }
-            // 15% probability that the rear car will shift lanes
+            // If the lane is not empty
             else
             {
-                cout << "Lane: " << i << " Switched: ";
-                tollQueue[i].back().print();
-                Car switchedCar = tollQueue[i].back();
-                tollQueue[i].pop_back();
-                int newLane;
-                do
+                int probability = getRandomInt(0, 99);
+
+                // 46% probability that the car at the head of the queue pays its toll and leaves the queue
+                if (probability < DEPARTURE)
                 {
-                    newLane = rand() % 4;
+                    cout << "Lane: " << i << " Paid: ";
+                    tollQueue[i].front().print();
+                    tollQueue[i].pop_front();
                 }
-                while (newLane == i);
-                tollQueue[newLane].push_back(switchedCar);
+                    // 39% probability that another car joins the queue
+                else if (probability < DEPARTURE + JOIN)
+                {
+                    cout << "Lane: " << i << " Joined: ";
+                    Car newCar = Car();
+                    tollQueue[i].push_back(newCar);
+                    tollQueue[i].back().print();
+                }
+                    // 15% probability that the rear car will shift lanes
+                else
+                {
+                    cout << "Lane: " << i << " Switched: ";
+                    tollQueue[i].back().print();
+                    Car switchedCar = tollQueue[i].back();
+                    tollQueue[i].pop_back();
+                    int newLane;
+                    do
+                    {
+                        newLane = rand() % 4;
+                    }
+                    while (newLane == i);
+                    tollQueue[newLane].push_back(switchedCar);
+                }
             }
         }
 
-        // 46% probability the Car at the head leaves the queue
-        if (probability < 46)
+        for (int i = 0; i < NUM_OF_LANES; i++)
         {
-            Car departingCar = tollQueue.front();
-            tollQueue.pop_front();
-            cout << "Car departing: ";
-            departingCar.print();
-            cout << "\n";
-        }
-        else // 45% probability a new Car joins at the back of the queue
-        {
-            tollQueue.push_back(Car());
-            cout << "New car joined the queue: ";
-            tollQueue.back().print();
-
-            cout << "\n";
-        }
-
-        // Display the current queue
-        if (!tollQueue.empty())
-        {
-            cout << "Current queue:\n";
-            for (auto& car : tollQueue)
+            cout << "Lane " << i + 1 << " Queue:\n";
+            for (auto& car : tollQueue[i])
+            {
+                cout << '\t';
                 car.print();
-            cout << "\n";
+            }
+
         }
-        else
-            cout << "The queue is now empty.\n";
 
         cout << "---------------------------------------\n";
-        step++;
     }
 
     cout << "\n";
