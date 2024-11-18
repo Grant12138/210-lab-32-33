@@ -4,7 +4,6 @@
 * Compiler: Apple clang version 16.0.0
 */
 #include <iostream>
-#include <iomanip>
 #include <deque>
 #include "Car.h"
 
@@ -25,6 +24,7 @@ int getRandomInt(int min, int max);
 int main()
 {
     print_id("Lab 32 & 33: Toll Booth & Plaza");
+    cout << "---------------------------------------\n\n";
 
     srand(time(0));
 
@@ -38,20 +38,20 @@ int main()
 
     // Display the initial queue
     cout << "Initial queue:\n";
-    for (int i = 0; i < NUM_OF_LANES; ++i)
+    for (int i = 0; i < NUM_OF_LANES; i++)
     {
-        cout << "Lane " << i << ":" << '\n';
+        cout << "Lane " << i + 1 << ":" << '\n';
         for (int j = 0; j < INITIAL_QUEUE_SIZE; j++)
         {
-            setw(4);
+            cout << "    ";
             tollQueue[i][j].print();
         }
     }
-    cout << "\n\n";
+    cout << "\n---------------------------------------\n\n";
 
     // Simulation loop
     int step = 0;
-    while (step++ < 20)
+    while (step++ < SIMULATION_STEPS)
     {
         cout << "Time: " << step << "\n";
 
@@ -65,7 +65,7 @@ int main()
                 if (probability < 50)
                 {
                     Car newCar = Car();
-                    cout << "Lane: " << i << " Joined: ";
+                    cout << "Lane: " << i + 1 << " Joined: ";
                     tollQueue[i].push_back(newCar);
                     tollQueue[i].back().print();
                 }
@@ -78,22 +78,22 @@ int main()
                 // 46% probability that the car at the head of the queue pays its toll and leaves the queue
                 if (probability < DEPARTURE)
                 {
-                    cout << "Lane: " << i << " Paid: ";
+                    cout << "Lane: " << i + 1 << " Paid: ";
                     tollQueue[i].front().print();
                     tollQueue[i].pop_front();
                 }
-                    // 39% probability that another car joins the queue
+                // 39% probability that another car joins the queue
                 else if (probability < DEPARTURE + JOIN)
                 {
-                    cout << "Lane: " << i << " Joined: ";
+                    cout << "Lane: " << i + 1 << " Joined: ";
                     Car newCar = Car();
                     tollQueue[i].push_back(newCar);
                     tollQueue[i].back().print();
                 }
-                    // 15% probability that the rear car will shift lanes
+                // 15% probability that the rear car will shift lanes
                 else
                 {
-                    cout << "Lane: " << i << " Switched: ";
+                    cout << "Lane: " << i + 1 << " Switched: ";
                     tollQueue[i].back().print();
                     Car switchedCar = tollQueue[i].back();
                     tollQueue[i].pop_back();
@@ -108,24 +108,36 @@ int main()
             }
         }
 
+        // Display the current queue
         for (int i = 0; i < NUM_OF_LANES; i++)
         {
             cout << "Lane " << i + 1 << " Queue:\n";
-            for (auto& car : tollQueue[i])
+            if (tollQueue[i].empty())
+                cout << "\tEMPTY\n";
+            else
             {
-                cout << '\t';
-                car.print();
+                for (auto& car : tollQueue[i])
+                {
+                    cout << '\t';
+                    car.print();
+                }
             }
-
         }
 
-        cout << "---------------------------------------\n";
+        cout << "\n---------------------------------------\n\n";
     }
 
-    cout << "\n";
     return 0;
 }
 
+/************************************************************************
+ * FUNCTION: A helper function that returns an integer between specified min and max
+ *
+ * @param min
+ * @param max
+ *
+ * @return INT;
+ */
 int getRandomInt(int min, int max)
 {
     return min + rand() % (max - min + 1);
