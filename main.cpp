@@ -16,6 +16,7 @@ const int SHIFT = 15;
 // Other CONST
 const int NUM_OF_LANES = 4;
 const int SIMULATION_STEPS = 20;
+const int INITIAL_QUEUE_SIZE = 2;
 
 void print_id(string const& lab_desc);
 
@@ -35,16 +36,19 @@ int main()
 
     // Display the initial queue
     cout << "Initial queue:\n";
-    for (auto& lane : tollQueue)
-        for (auto& car : lane)
-            car.print();
+    for (int i = 0; i < NUM_OF_LANES; ++i)
+    {
+        cout << "Lane " << i << ":" << '\n';
+        for (int i = 0; i < INITIAL_QUEUE_SIZE; i++)
+
+    }
     cout << "\n\n";
 
     // Simulation loop
-    int step = 1;
-    while (!tollQueue.empty())
+    int step = 0;
+    while (step++ < 20)
     {
-        cout << "Step " << step << ":\n";
+        cout << "Time: " << step << "\n";
 
         int probability = 1 + rand() % 99;
 
