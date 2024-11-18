@@ -1,5 +1,5 @@
 /***************************************************************************
-* COMSC-210 | Lab 32 | Grant Luo
+* COMSC-210 | Lab 32 & 33 | Grant Luo
 * Editor: CLion
 * Compiler: Apple clang version 16.0.0
 */
@@ -15,7 +15,7 @@ void print_id(string const& lab_desc);
 
 int main()
 {
-    print_id("Lab 32: Toll Booth");
+    print_id("Lab 32 & 33: Toll Booth & Plaza");
 
     srand(time(0));
 
