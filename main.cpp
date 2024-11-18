@@ -9,7 +9,13 @@
 
 using namespace std;
 
-const int INITIAL_QUEUE_SIZE = 2;
+// Probabilities
+const int DEPARTURE = 46;
+const int JOIN = 39;
+const int SHIFT = 15;
+// Other CONST
+const int NUM_OF_LANES = 4;
+const int SIMULATION_STEPS = 20;
 
 void print_id(string const& lab_desc);
 
@@ -19,10 +25,9 @@ int main()
 
     srand(time(0));
 
-    // Initialize the queue with two cars
-    deque<Car> tollQueue {};
-    for (int i = 0; i < INITIAL_QUEUE_SIZE; i++)
-        tollQueue.push_back(Car());
+    // Initialize an array of deque with two cars in each deque (lane)
+    deque<Car> tollQueue[NUM_OF_LANES] {};
+    for (int i = 0; i < NUM_OF_LANES; i++)
 
     // Display the initial queue
     cout << "Initial queue:\n";
