@@ -19,6 +19,7 @@ const int SIMULATION_STEPS = 20;
 const int INITIAL_QUEUE_SIZE = 2;
 
 void print_id(string const& lab_desc);
+int getRandomInt(int min, int max);
 
 int main()
 {
@@ -39,8 +40,11 @@ int main()
     for (int i = 0; i < NUM_OF_LANES; ++i)
     {
         cout << "Lane " << i << ":" << '\n';
-        for (int i = 0; i < INITIAL_QUEUE_SIZE; i++)
-
+        for (int j = 0; j < INITIAL_QUEUE_SIZE; j++)
+        {
+            setw(4);
+            tollQueue[i][j].print();
+        }
     }
     cout << "\n\n";
 
@@ -87,6 +91,11 @@ int main()
 
     cout << "\n";
     return 0;
+}
+
+int getRandomInt(int min, int max)
+{
+    return min + rand() % (max - min + 1);
 }
 
 void print_id(string const& lab_desc)
