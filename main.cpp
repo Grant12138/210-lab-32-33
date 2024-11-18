@@ -54,10 +54,20 @@ int main()
     {
         cout << "Time: " << step << "\n";
 
-        int probability = 1 + rand() % 99;
+        for (int i = 0; i < NUM_OF_LANES; i++)
+        {
+            int probability = getRandomInt(0, 99);
 
-        // 55% probability the Car at the head leaves the queue
-        if (probability < 55)
+            // 46% probability that the car at the head of the queue pays its toll and leaves the queue
+            if (probability < DEPARTURE)
+            {
+                cout << "Lane: " << i << " Paid: " << tollQueue[i].front().print();
+            }
+            else if (probability < DEPARTURE + JOIN)
+        }
+
+        // 46% probability the Car at the head leaves the queue
+        if (probability < 46)
         {
             Car departingCar = tollQueue.front();
             tollQueue.pop_front();
