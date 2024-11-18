@@ -28,11 +28,16 @@ int main()
     // Initialize an array of deque with two cars in each deque (lane)
     deque<Car> tollQueue[NUM_OF_LANES] {};
     for (int i = 0; i < NUM_OF_LANES; i++)
+    {
+        tollQueue[i].push_back(Car());
+        tollQueue[i].push_back(Car());
+    }
 
     // Display the initial queue
     cout << "Initial queue:\n";
-    for (auto& car : tollQueue)
-        car.print();
+    for (auto& lane : tollQueue)
+        for (auto& car : lane)
+            car.print();
     cout << "\n\n";
 
     // Simulation loop
