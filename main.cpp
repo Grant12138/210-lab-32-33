@@ -56,14 +56,43 @@ int main()
 
         for (int i = 0; i < NUM_OF_LANES; i++)
         {
+            // If the lane is empty, 50/50 chance a new car joins the lane
+            if (tollQueue[i].empty())
+            {
+
+            }
             int probability = getRandomInt(0, 99);
 
             // 46% probability that the car at the head of the queue pays its toll and leaves the queue
             if (probability < DEPARTURE)
             {
-                cout << "Lane: " << i << " Paid: " << tollQueue[i].front().print();
+                cout << "Lane: " << i << " Paid: ";
+                tollQueue[i].front().print();
+                tollQueue[i].pop_front();
             }
+            // 39% probability that another car joins the queue
             else if (probability < DEPARTURE + JOIN)
+            {
+                cout << "Lane: " << i << " Joined: ";
+                Car newCar = Car();
+                tollQueue[i].push_back(newCar);
+                tollQueue[i].back().print();
+            }
+            // 15% probability that the rear car will shift lanes
+            else
+            {
+                cout << "Lane: " << i << " Switched: ";
+                tollQueue[i].back().print();
+                Car switchedCar = tollQueue[i].back();
+                tollQueue[i].pop_back();
+                int newLane;
+                do
+                {
+                    newLane = rand() % 4;
+                }
+                while (newLane == i);
+                tollQueue[newLane].push_back(switchedCar);
+            }
         }
 
         // 46% probability the Car at the head leaves the queue
